@@ -1,21 +1,22 @@
-const fs = require("fs");
+/* eslint-disable no-console */
+import { existsSync, readdirSync, rmdirSync, statSync, unlinkSync } from 'fs'
 
-const deleteDir = path => {
-  if (fs.existsSync(path)) {
-    files = fs.readdirSync(path);
-    files.forEach(i => {
-      const currentPath = `${path}/${i}`;
-      if (fs.statSync(currentPath).isDirectory()) {
-        deleteDir(currentPath);
+const deleteDir = (path) => {
+  if (existsSync(path)) {
+    const files = readdirSync(path)
+    files.forEach((i) => {
+      const currentPath = `${path}/${i}`
+      if (statSync(currentPath).isDirectory()) {
+        deleteDir(currentPath)
       } else {
-        fs.unlinkSync(currentPath);
+        unlinkSync(currentPath)
       }
-    });
-    fs.rmdirSync(path);
+    })
+    rmdirSync(path)
   }
-};
+}
 
-console.log("start pre-cleanning");
-deleteDir("./dist");
-deleteDir("./min");
-console.log("pre-cleanning done");
+console.log('start pre-cleanning')
+deleteDir('./dist')
+deleteDir('./min')
+console.log('pre-cleanning done')
